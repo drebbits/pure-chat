@@ -52,8 +52,8 @@ class Pure_Chat_Plugin {
 	function pure_chat_update() {
 		if($_POST['action'] == 'pure_chat_update' && strlen((string)$_POST['purechatwid']) == 36)
 		{
-			update_option('purechat_widget_code', $_POST['purechatwid']);
-			update_option('purechat_widget_name', $_POST['purechatwname']);
+			update_option( 'purechat_widget_code', sanitize_text_field( $_POST['purechatwid'] ) );
+			update_option( 'purechat_widget_name', sanitize_text_field( $_POST['purechatwname'] ) );
 		}
 	}
 
