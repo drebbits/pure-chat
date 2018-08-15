@@ -1,0 +1,33 @@
+.purechatbuttonbox{
+	text-align:center;
+	border-style:solid;
+	border-width:0px;
+	border-radius:0px;
+	border-color:#21759b;
+	padding:6px;
+	width: 40%;
+	margin: 0 auto;
+}
+
+.purechatcontentdiv{
+	text-align:center;
+}
+
+
+.purechatbutton{
+	border-radius: 3px;
+    cursor: pointer;
+    font-size: 19px;
+    white-space: nowrap;
+    padding: 13px 60px;
+ 	background-color: #289AA0;
+    color: #ffffff;
+    transition: 0.7s;
+        border: 0;
+}
+
+.purechatlinkbox{
+	width:40%;
+	margin:0 auto;
+	text-align:left;
+}
