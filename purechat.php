@@ -30,9 +30,9 @@ class Pure_Chat_Plugin {
 
 
 	function __construct() {
-		add_action('wp_footer', array( &$this, 'pure_chat_load_snippet') );
-		add_action('admin_menu', array( &$this, 'pure_chat_menu' ) );
-		add_action('wp_ajax_pure_chat_update', array( &$this, 'pure_chat_update' ) );
+		add_action('wp_footer',                 array( $this, 'pure_chat_load_snippet') );
+		add_action('admin_menu',                array( $this, 'pure_chat_menu' ) );
+		add_action('wp_ajax_pure_chat_update',  array( $this, 'pure_chat_update' ) );
 
 		$this->update_plugin();
 	}
