@@ -27,8 +27,6 @@ class Pure_Chat_Plugin {
 		Pure_Chat_Plugin::clear_cache();
 	}
 
-
-
 	function __construct() {
 		add_action('wp_footer',                 array( $this, 'pure_chat_load_snippet') );
 		add_action('admin_menu',                array( $this, 'pure_chat_menu' ) );
