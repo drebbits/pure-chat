@@ -44,8 +44,12 @@ class Pure_Chat_Plugin {
 	}
 
 	function pure_chat_update() {
-		if($_POST['action'] == 'pure_chat_update' && strlen((string)$_POST['purechatwid']) == 36)
-		{
+
+		if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'purechatnonce' ) ){
+			return;
+		}
+
+		if ( $_POST['action'] === 'pure_chat_update' && strlen( (string) $_POST['purechatwid'] ) === 36) {
 			update_option( 'purechat_widget_code', sanitize_text_field( $_POST['purechatwid'] ) );
 			update_option( 'purechat_widget_name', sanitize_text_field( $_POST['purechatwname'] ) );
 		}
@@ -75,11 +79,10 @@ class Pure_Chat_Plugin {
 				<link rel="stylesheet" href="<?php echo esc_url( plugins_url() ).'/pure-chat/purechatStyles.css'?>" type="text/css">
 		</head>
 		<?php
-		if (isset($_POST['purechatwid']) && isset($_POST['purechatwname'])) {
+		if ( isset( $_POST['purechatwid'] ) && isset( $_POST['purechatwname'] ) ) {
 			pure_chat_update();
 		}
 		?>
-		<p>
 		<div class="purechatbuttonbox">
 			<img src="<?php echo esc_url( plugins_url() ).'/pure-chat/logo.png'?>"alt="Pure Chat logo"></img>
 			<div class="purechatcontentdiv">
@@ -97,7 +100,6 @@ class Pure_Chat_Plugin {
 			<form>
 				<input type="button" class="purechatbutton" value="Pick a widget!" onclick="openPureChatChildWindow()">
 			</form>
-			<p>
 		</div>
 		<script>
 			var pureChatChildWindow;
@@ -114,7 +116,8 @@ class Pure_Chat_Plugin {
 				var data = {
 					'action': 'pure_chat_update',
 					'purechatwid': event.data.id,
-					'purechatwname': event.data.name
+					'purechatwname': event.data.name,
+					'nonce': <?php echo wp_create_nonce( 'purechatnonce' ); ?>
 				};
 				jQuery.post(url, data).done(function(){})
 				var purechatNamePassedIn = event.data.name;
