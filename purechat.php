@@ -53,13 +53,12 @@ class Pure_Chat_Plugin {
 
 	function pure_chat_load_snippet() {
 		global $current_user;
-		if(get_option('purechat_widget_code'))
-		{
-			echo("<script type='text/javascript' data-cfasync='false'>window.purechatApi = { l: [], t: [], on: function () { this.l.push(arguments); } }; (function () { var done = false; var script = document.createElement('script'); script.async = true; script.type = 'text/javascript'; script.src = 'https://app.purechat.com/VisitorWidget/WidgetScript'; document.getElementsByTagName('HEAD').item(0).appendChild(script); script.onreadystatechange = script.onload = function (e) { if (!done && (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete')) { var w = new PCWidget({c: '" . get_option('purechat_widget_code') . "', f: true }); done = true; } }; })();</script>");
-		}
-		else
-		{
-			echo("<!-- Please select a widget in the wordpress plugin to activate purechat -->");
+
+		if ( get_option( 'purechat_widget_code' ) ) {
+			$purechat_widget_code = get_option( 'purechat_widget_code' );
+			echo "<script type='text/javascript' data-cfasync='false'>window.purechatApi = { l: [], t: [], on: function () { this.l.push(arguments); } }; (function () { var done = false; var script = document.createElement('script'); script.async = true; script.type = 'text/javascript'; script.src = 'https://app.purechat.com/VisitorWidget/WidgetScript'; document.getElementsByTagName('HEAD').item(0).appendChild(script); script.onreadystatechange = script.onload = function (e) { if (!done && (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete')) { var w = new PCWidget({c: '" . esc_js( $purechat_widget_code ) . "', f: true }); done = true; } }; })();</script>";
+		} else {
+			echo "<!-- Please select a widget in the wordpress plugin to activate purechat -->";
 		}
 	}
 
@@ -83,20 +82,16 @@ class Pure_Chat_Plugin {
 		<p>
 		<div class="purechatbuttonbox">
 			<img src="<?php echo plugins_url().'/pure-chat/logo.png'?>"alt="Pure Chat logo"></img>
-			<div class = "purechatcontentdiv">
-				<?php
-				if (get_option('purechat_widget_code') == '' ) {
-					?>
+			<div class="purechatcontentdiv">
+				<?php if ( get_option('purechat_widget_code' ) === '' ) : ?>
 					<p>Pure Chat allows you to chat in real time with visitors to your WordPress site. Click the button below to get started by logging in to Pure Chat and selecting a chat widget!</p>
 					<p>The button will open a widget selector in an external page. Keep in mind that your Pure Chat account is separate from your WordPress account.</p>
-				<?php
-				} else {
-				?>
+				<?php : else : ?>
+					<?php $purechat_widget_name = get_option( 'purechat_widget_name' ); ?>
 					<h4>Your current chat widget is:</h4>
-					<h1 class="purechatCurrentWidgetName"><?php echo get_option('purechat_widget_name'); ?></h1>
+					<h1 class="purechatCurrentWidgetName"><?php echo esc_html( $purechat_widget_name ); ?></h1>
 					<p>Would you like to switch widgets?</p>
-				<?php
-				}
+				<?php endif; ?>
 				?>
 			</div>
 			<form>
