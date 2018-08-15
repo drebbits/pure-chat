@@ -72,7 +72,7 @@ class Pure_Chat_Plugin {
 		global $purechatHome;
 		?>
 		<head>
-				<link rel="stylesheet" href="<?php echo plugins_url().'/pure-chat/purechatStyles.css'?>" type="text/css">
+				<link rel="stylesheet" href="<?php echo esc_url( plugins_url() ).'/pure-chat/purechatStyles.css'?>" type="text/css">
 		</head>
 		<?php
 		if (isset($_POST['purechatwid']) && isset($_POST['purechatwname'])) {
@@ -81,7 +81,7 @@ class Pure_Chat_Plugin {
 		?>
 		<p>
 		<div class="purechatbuttonbox">
-			<img src="<?php echo plugins_url().'/pure-chat/logo.png'?>"alt="Pure Chat logo"></img>
+			<img src="<?php echo esc_url( plugins_url() ).'/pure-chat/logo.png'?>"alt="Pure Chat logo"></img>
 			<div class="purechatcontentdiv">
 				<?php if ( get_option('purechat_widget_code' ) === '' ) : ?>
 					<p>Pure Chat allows you to chat in real time with visitors to your WordPress site. Click the button below to get started by logging in to Pure Chat and selecting a chat widget!</p>
@@ -103,10 +103,12 @@ class Pure_Chat_Plugin {
 			var pureChatChildWindow;
 			var purechatNameToPass = "<?php echo get_option('purechat_widget_name');?>";
 			var purechatIdToPass = "<?php echo get_option('purechat_widget_code');?>";
+
 			function openPureChatChildWindow() {
-				pureChatChildWindow = window.open('<?php echo $purechatHome;?>/home/pagechoicewordpress?widForDisplay=' + purechatIdToPass +
-											  '&nameForDisplay=' + purechatNameToPass, 'Pure Chat');
+				var winURL = <?php echo esc_url( $purechatHome ); ?> '/home/pagechoicewordpress?widForDisplay='+purechatIdToPass+'&nameForDisplay='+purechatNameToPass;
+				pureChatChildWindow = window.open(winURL, 'Pure Chat');
 			}
+
 			var url = ajaxurl;
 			window.addEventListener('message', function(event) {
 				var data = {
@@ -130,48 +132,6 @@ class Pure_Chat_Plugin {
 		<?php
 	}
 }
-
-/*function deactivate_script(){
-		?>
-		<script type="text/javascript">
-
-			//Popup in window
-			jQuery(document).ready(function($){
-				var currentPage='';
-
-				var deactivate_popup = [
-				'<div style="position: fixed; top: 80px; width: 275px; background-color: #fff; z-index: 9999; left: 0; right: 0; line-height: 20px; margin: auto; padding: 20px; box-shadow: 1px 1px 1px grey;">',
-				'<center><img src="<?=plugin_dir_url( __FILE__ )?>/logo.png"/></center><br>',
-				'<form action="">',
-					'<input type="radio" name="purechat_survey" value="expensive">Didn\'t recieve enough chats</input><br><br>',
-					'<input type="radio" name="purechat_survey" value="nowork">Too expensive</input><br><br>',
-					'<input type="radio" name="purechat_survey" value="testing">Don\'t have the time</input><br><br>',
-					'<input type="radio" name="purechat_survey" value="troubleshooting">Missing Key Feautres</input><br><br>',
-					'<input type="radio" name="purechat_survey" value="option">Switched to a different chat provider</input><br><br>',
-					'<input type="radio" name="purechat_survey" value="Not">Not a right fit or doesn\'t meat your needs</input><br><br>',
-					'<input type="radio" name="purechat_survey" value="other">Other Reason:</input><br><input style="margin-top: 5px; width: 100%;"></input><br><br>',
-					'</form>',
-					'<center><button style="border-radius: 3px; cursor: pointer; font-size: 14px; white-space: nowrap; padding: 10px 60px; background-color: #289AA0; color: #ffffff; transition: 0.7s; border: 0;" id="pure-chat-send-survey">Send and Deactivate</button></center>',
-				'</div>'].join("");
-
-				$('#pure-chat-test').find('.deactivate a').click(function(e){
-					currentPage = $(this).attr('href');
-
-					e.preventDefault();
-
-					$('body').append(deactivate_popup);
-				});
-
-				$(document).on('click', '#pure-chat-send-survey', function(){
-
-
-					window.location.href=currentPage;
-				});
-
-			});
-		</script>
-		<?php
-}*/
 
 register_activation_hook(__FILE__, array('Pure_Chat_Plugin', 'activate'));
 register_deactivation_hook(__FILE__, array('Pure_Chat_Plugin', 'deactivate'));
